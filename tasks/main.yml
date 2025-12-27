@@ -63,7 +63,7 @@
   meta: flush_handlers
 
 - name: Make sure elasticsearch is started
-  become: yes
+  become: true
   service: name=elasticsearch state=started enabled=yes
   when: es_start_service
 
