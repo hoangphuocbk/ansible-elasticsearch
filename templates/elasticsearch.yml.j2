@@ -24,12 +24,9 @@ path.repo: {{ es_path_repo }}
 {% endif %}
 
 node.roles:
-{% if inventory_hostname in groups['elasticsearch_master'] %}
-  - master
-{% endif %}
-{% if inventory_hostname in groups['elasticsearch_data'] %}
-  - data
-{% endif %}
+{% for role in es_node_roles %}
+- {{ role }}
+{% endfor %}
 
 {% if es_action_auto_create_index == true %}
 action.auto_create_index: true
