@@ -11,6 +11,10 @@ cluster.name: elasticsearch
 node.name: {{inventory_hostname}}
 {% endif %}
 
+{% if es_node_attr_rack_id is defined %}
+node.attr.rack_id: es_node_attr_rack_id
+{% endif %}
+
 #################################### Paths ####################################
 
 # Path to directory containing configuration (this file and logging.yml):
