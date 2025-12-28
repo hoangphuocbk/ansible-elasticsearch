@@ -1,0 +1,19 @@
+all:
+  children:
+    elasticsearch:
+      children:
+        elasticsearch_master:
+          hosts:
+            node1:
+          vars:
+            es_node_roles:
+              - master
+        elasticsearch_data:
+          hosts:
+            node2:
+            node3:
+          vars:
+            es_node_roles:
+              - data
+      vars:
+        ansible_ssh_user: vagrant

@@ -1,0 +1,39 @@
+---
+
+- name: Deploy Elasticsearch cluster
+  hosts: elasticsearch
+  become: true
+  tasks:
+    - name: Include ElasticSearch role
+      include_role:
+        name: ../../ansible-elasticsearch
+  vars:
+    es_version: "9.2.3"
+    es_use_repository: false
+    es_local_package_path: /tmp/elasticsearch-9.2.3-amd64.deb # on ansible controller
+    es_custom_package_url: /tmp/elasticsearch-9.2.3-amd64.deb # on target node
+    es_heap_size: "1g"  # Adjust based on available RAM (recommend 50% of RAM, max 31g)
+    es_api_basic_auth_username: "elastic" # This is the default user created by the installation of elasticsearch
+    es_api_basic_auth_password: "changeme" # This is the default password created by the installation of elasticsearch
+    es_interface: "eth1"
+    es_api_host: "{{ hostvars[inventory_hostname]['ansible_' + es_interface]['ipv4']['address'] }}"
+    es_config:
+      cluster.name: "vagrant-cluster"
+      discovery.seed_hosts:
+        - "10.0.20.21:9300"
+      cluster.initial_master_nodes:
+        - "10.0.20.21"
+      network.host: "{{ hostvars[inventory_hostname]['ansible_' + es_interface]['ipv4']['address'] }}"
+      http.port: 9200
+      transport.port: 9300
+      bootstrap.memory_lock: true  # Lock heap in memory to prevent swapping
+    es_data_dirs:
+      - "/u01/data/elasticsearch"
+    es_log_dir: "/u01/logs/elasticsearch"
+    es_enable_transport_ssl: true
+    es_enable_http_ssl: false
+    es_auto_generate_certificates: true
+    es_ssl_keystore: elastic_certificates.p12
+    es_ssl_truststore: "{{ es_ssl_keystore }}"
+    es_ssl_keystore_password: "changeme"
+    es_ssl_truststore_password: "{{ es_ssl_keystore_password }}"
