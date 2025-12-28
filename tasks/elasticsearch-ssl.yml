@@ -17,6 +17,46 @@
     mode: "750"
   when: es_ssl_upload
 
+- name: Auto generate SSL certificates
+  become: true
+  block:
+    - name: Set temporary CA path
+      ansible.builtin.set_fact:
+        temp_ca_path: "{{ es_ssl_certificate_path }}/elastic-stack-ca.p12"
+
+    - name: Checking temporary ElasticSearch CA exists or not
+      ansible.builtin.stat:
+        path: "{{ temp_ca_path }}"
+      register: ca_file
+
+    - name: Generate ElasticSearch CA (temporary)
+      ansible.builtin.command: >
+        {{ es_home }}/bin/elasticsearch-certutil ca --out {{ temp_ca_path }} --pass {{ es_ssl_truststore_password }}
+      when: not ca_file.stat.exists
+
+    - name: Checking ElasticSearch Certificates exists or not
+      ansible.builtin.stat:
+        path: "{{ es_ssl_certificate_path }}/{{ es_ssl_keystore }}"
+      register: cert_file
+
+    - name: Generate certificates (bundled with CA for truststore use)
+      ansible.builtin.command: >
+        {{ es_home }}/bin/elasticsearch-certutil cert --ca {{ temp_ca_path }} --ca-pass {{ es_ssl_truststore_password }} --out {{ es_ssl_certificate_path }}/{{ es_ssl_keystore }} --pass {{ es_ssl_keystore_password }}
+      when: not cert_file.stat.exists
+
+    - name: Fetch ElasticSearch Certificates to local certs dir (used for both key and trust)
+      ansible.builtin.fetch:
+        src: "{{ es_ssl_certificate_path }}/{{ es_ssl_keystore }}"
+        dest: "./{{ es_ssl_keystore }}"
+        flat: true
+
+    - name: Clean up temporary CA file
+      ansible.builtin.file:
+        path: "{{ temp_ca_path }}"
+        state: absent
+  run_once: true
+  when: es_auto_generate_certificates
+
 - name: Upload SSL/TLS keystore
   become: true
   copy:

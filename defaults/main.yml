@@ -73,3 +73,6 @@ es_ssl_verification_mode: "certificate"
 es_validate_certs: "yes"
 es_delete_unmanaged_file: true
 es_delete_unmanaged_native: true
+# Enable auto generation of SSL certificates
+# https://www.elastic.co/docs/deploy-manage/security/set-up-basic-security
+es_auto_generate_certificates: true
