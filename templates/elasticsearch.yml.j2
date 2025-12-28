@@ -23,6 +23,14 @@ path.logs: {{ es_log_dir }}
 path.repo: {{ es_path_repo }}
 {% endif %}
 
+node.roles:
+{% if inventory_hostname in groups['elasticsearch_master'] %}
+  - master
+{% endif %}
+{% if inventory_hostname in groups['elasticsearch_data'] %}
+  - data
+{% endif %}
+
 {% if es_action_auto_create_index == true %}
 action.auto_create_index: true
 {% elif not es_action_auto_create_index %}
