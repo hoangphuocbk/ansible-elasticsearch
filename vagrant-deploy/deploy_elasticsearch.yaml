@@ -37,3 +37,4 @@
     es_ssl_truststore: "{{ es_ssl_keystore }}"
     es_ssl_keystore_password: "changeme"
     es_ssl_truststore_password: "{{ es_ssl_keystore_password }}"
+    es_config_log4j2: /tmp/log4j2.properties
