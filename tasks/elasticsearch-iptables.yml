@@ -1,0 +1,31 @@
+---
+
+- name: config iptables | add rules for ES - INPUT chain
+  become: true
+  ansible.builtin.iptables:
+    action: insert
+    chain: INPUT
+    protocol: tcp
+    source: "{{ hostvars[item]['ansible_' + es_interface]['ipv4']['address'] }}"
+    destination_ports:
+      - "{{ es_api_port }}"
+      - "{{ es_transport_port }}"
+    comment: "ansible | ElasticSearch cluster - iptables rules"
+    jump: ACCEPT
+  with_items: "{{ groups[es_cluster_name] }}"
+  when: hostvars[item]['ansible_' + es_interface]['ipv4']['address'] != es_api_host
+
+- name: config iptables | add rules for ES - OUTPUT chain
+  become: true
+  ansible.builtin.iptables:
+    action: insert
+    chain: OUTPUT
+    protocol: tcp
+    destination: "{{ hostvars[item]['ansible_' + es_interface]['ipv4']['address'] }}"
+    destination_ports:
+      - "{{ es_api_port }}"
+      - "{{ es_transport_port }}"
+    comment: "ansible | ElasticSearch cluster - iptables rules"
+    jump: ACCEPT
+  with_items: "{{ groups[es_cluster_name] }}"
+  when: hostvars[item]['ansible_' + es_interface]['ipv4']['address'] != es_api_host

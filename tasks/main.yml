@@ -59,6 +59,12 @@
   tags:
       - xpack
 
+- name: include elasticsearch-iptables.yml
+  include_tasks: elasticsearch-iptables.yml
+  when: es_enable_iptables | default(false)
+  tags:
+      - iptables
+
 - name: flush handlers
   meta: flush_handlers
 
