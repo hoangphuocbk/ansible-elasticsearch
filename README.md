@@ -181,8 +181,7 @@ The following illustrates applying configuration parameters to an Elasticsearch 
   roles:
     - role: elastic.elasticsearch
   vars:
-    es_data_dirs:
-      - "/opt/elasticsearch/data"
+    es_data_dir: "/opt/elasticsearch/data"
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       node.name: "node1"
@@ -218,8 +217,7 @@ A more complex example:
   roles:
     - role: elastic.elasticsearch
   vars:
-    es_data_dirs:
-      - "/opt/elasticsearch/data"
+    es_data_dir: "/opt/elasticsearch/data"
     es_log_dir: "/opt/elasticsearch/logs"
     es_config:
       node.name: "node1"
@@ -242,7 +240,7 @@ A more complex example:
 **The role uses es_api_host and es_api_port to communicate with the node for actions only achievable via http e.g. to install templates and to check the NODE IS ACTIVE.  These default to "localhost" and 9200 respectively.
 If the node is deployed to bind on either a different host or port, these must be changed.**
 
-**Only use es_data_dirs and es_log_dir for customizing the data and log dirs respectively. When using together with `es_config['path.data']` and `es_config['path.logs']` it would result in generating duplicate data- and logs-keys in `elasticsearch.yml` and thus let fail to start elasticsearch.**
+**Only use es_data_dir and es_log_dir for customizing the data and log dirs respectively. When using together with `es_config['path.data']` and `es_config['path.logs']` it would result in generating duplicate data- and logs-keys in `elasticsearch.yml` and thus let fail to start elasticsearch.**
 
 ### Multi Node Server Installations
 
@@ -276,8 +274,7 @@ An example of a three server deployment is shown below.  The first server holds 
   roles:
     - role: elastic.elasticsearch
   vars:
-    es_data_dirs:
-      - "/opt/elasticsearch"
+    es_data_dir: "/opt/elasticsearch"
     es_config:
       cluster.name: "test-cluster"
       cluster.initial_master_nodes: "elastic02"

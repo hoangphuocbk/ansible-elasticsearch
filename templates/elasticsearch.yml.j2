@@ -19,7 +19,7 @@ node.attr.rack_id: es_node_attr_rack_id
 
 # Path to directory containing configuration (this file and logging.yml):
 
-path.data: {{ es_data_dirs | array_to_str }}
+path.data: {{ es_data_dir }}
 
 path.logs: {{ es_log_dir }}
 

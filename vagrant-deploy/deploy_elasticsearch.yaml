@@ -27,8 +27,7 @@
       http.port: 9200
       transport.port: 9300
       bootstrap.memory_lock: true  # Lock heap in memory to prevent swapping
-    es_data_dirs:
-      - "/u01/data/elasticsearch"
+    es_data_dir: "/u01/data/elasticsearch"
     es_log_dir: "/u01/logs/elasticsearch"
     es_enable_transport_ssl: true
     es_enable_http_ssl: false

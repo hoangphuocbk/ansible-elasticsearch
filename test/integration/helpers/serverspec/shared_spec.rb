@@ -126,7 +126,7 @@ shared_examples 'shared::init' do |vars|
     it { should contain "node.name: localhost" }
     it { should contain 'cluster.name: elasticsearch' }
     it { should_not contain "path.conf: /etc/elasticsearch" }
-    its(:content) { should match "path.data: #{vars['es_data_dirs'].join(',')}" }
+    its(:content) { should match "path.data: #{vars['es_data_dir']}" }
     its(:content) { should match "path.logs: /var/log/elasticsearch" }
   end
 

@@ -31,8 +31,7 @@ es_config_jvm: "jvm.options.j2"
 es_conf_dir: "/etc/elasticsearch"
 es_pid_dir: "/var/run/elasticsearch"
 es_tmp_dir: "/tmp"
-es_data_dirs:
-  - "/var/lib/elasticsearch"
+es_data_dir: "/var/lib/elasticsearch"
 es_log_dir: "/var/log/elasticsearch"
 es_action_auto_create_index: true
 es_max_open_files: 65536

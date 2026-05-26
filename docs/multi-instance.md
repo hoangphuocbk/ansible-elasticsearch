@@ -25,7 +25,7 @@ nodes
 # rm -fr /var/run/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}/
 ```
 
-3. Update playbook (remove `es_conf_dir`, `es_data_dirs`, `es_log_dir`, `es_pid_dir` and `es_instance_name` variables)
+3. Update playbook (remove `es_conf_dir`, `es_data_dir`, `es_log_dir`, `es_pid_dir` and `es_instance_name` variables)
 
 4. Update ansible-role to new version ([7.1.1](https://github.com/elastic/ansible-elasticsearch/releases/tag/7.1.1) at the time of writing) and deploy ansible-role
 
@@ -87,8 +87,7 @@ This procedure will allow you to keep your data to the old paths:
 1. Override these variables to match previous values:
 ```yaml
 es_conf_dir: /etc/elasticsearch/${ES_INSTANCE_NAME}
-es_data_dirs:
-  - /var/lib/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}
+es_data_dir: /var/lib/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}
 es_log_dir: /var/log/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}
 es_pid_dir: /var/run/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}
 ```
@@ -99,7 +98,7 @@ es_pid_dir: /var/run/elasticsearch/${INVENTORY_HOSTNAME}-${ES_INSTANCE_NAME}
 
 Example:
 ```bash
-$ ansible-playbook -e '{"es_conf_dir":"/etc/elasticsearch/node1","es_data_dirs":["/var/lib/elasticsearch/localhost-node1"],"es_log_dir":"/var/log/elasticsearch/localhost-node1","es_pid_dir":"/var/run/elasticsearch/localhost-node1"}' playbook.yml
+$ ansible-playbook -e '{"es_conf_dir":"/etc/elasticsearch/node1","es_data_dir":"/var/lib/elasticsearch/localhost-node1","es_log_dir":"/var/log/elasticsearch/localhost-node1","es_pid_dir":"/var/run/elasticsearch/localhost-node1"}' playbook.yml
 ...
 TASK [elasticsearch : Create Directories] **********************************************************************************************************************************************************************************************************************
 ok: [localhost] => (item=/var/run/elasticsearch/localhost-node1)

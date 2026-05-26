@@ -32,7 +32,7 @@
     mode: "2750"
   with_items:
     - "{{ es_log_dir }}"
-    - "{{ es_data_dirs }}"
+    - "{{ es_data_dir }}"
 
 #Copy the config template
 - name: Copy Configuration File
