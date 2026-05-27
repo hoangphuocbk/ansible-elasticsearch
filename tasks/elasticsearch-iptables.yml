@@ -29,3 +29,7 @@
     jump: ACCEPT
   with_items: "{{ groups[es_cluster_name] }}"
   when: hostvars[item]['ansible_' + es_interface]['ipv4']['address'] != es_api_host
+
+- name: config iptables | save iptables rules
+  become: true
+  command: netfilter-persistent save
