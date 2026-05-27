@@ -12,7 +12,7 @@ node.name: {{inventory_hostname}}
 {% endif %}
 
 {% if es_node_attr_rack_id is defined %}
-node.attr.rack_id: es_node_attr_rack_id
+node.attr.rack_id: {{ es_node_attr_rack_id }}
 {% endif %}
 
 #################################### Paths ####################################
